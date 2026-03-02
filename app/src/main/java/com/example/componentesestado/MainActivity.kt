@@ -1,6 +1,7 @@
 package com.example.componentesestado
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,9 +12,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +29,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +46,7 @@ class MainActivity : ComponentActivity() {
             ComponentesEstadoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 //                   BasicComponentsScreen(modifier = Modifier.padding(innerPadding))
-                    TesteComponentsScreen(modifier = Modifier.padding(innerPadding))
+                    ComponentesEstadoScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -73,37 +83,85 @@ fun BasicComponentsScreen(modifier: Modifier = Modifier) {
     }
 }
 
+
 @Composable
-fun TesteComponentsScreen(modifier: Modifier){
+fun ComponentesEstadoScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Red)
+            .background(Color.Black),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AndroidEnemy(
-            modifier = Modifier
-                .size(70.dp),
-            color = Color.Cyan
+        var nome = remember {
+            mutableStateOf(value = "")
+        }
+        var idade = remember {
+            mutableStateOf(value = "")
+        }
+        var senha = remember {
+            mutableStateOf(value = "")
+        }
+        var senhaNumerico = remember {
+            mutableStateOf(value = "")
+        }
+
+        TextField(
+            value = nome.value,
+            onValueChange = {
+                novovalor ->
+                Log.i("Teste", novovalor)
+
+                nome.value = novovalor
+            },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Words
+            ),
+            placeholder = {
+                Text("Digite seu nome:")
+            },
+            label = {
+                Text("Nome")
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Icone Pessoa",
+                    tint = Color(8,68,17)
+                )
+            }
         )
-        AndroidEnemy(
-            modifier = Modifier
-                .size(70.dp),
-            color = Color.Yellow
+        TextField(
+            value = idade.value,
+            onValueChange = {
+                novovalor ->
+                Log.i("Teste", novovalor)
+
+                idade.value = novovalor
+            },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Characters)
         )
-        AndroidEnemy(
-            modifier = Modifier
-                .size(70.dp),
-            color = Color.Green
+        TextField(
+            value = senha.value,
+            onValueChange = {
+                novovalor ->
+                Log.i("Teste", novovalor)
+
+                senha.value = novovalor
+            },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.None)
+        )
+        TextField(
+            value = senhaNumerico.value,
+            onValueChange = {
+                novovalor ->
+                Log.i("Teste", novovalor)
+
+                senhaNumerico.value = novovalor
+            },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences)
         )
     }
-}
-
-@Composable
-fun AndroidEnemy(modifier: Modifier = Modifier, color: Color) {
-    Image(
-        contentDescription = "Android Enemy",
-        painter = painterResource(R.drawable.ic_launcher_foreground),
-        modifier = modifier,
-        colorFilter = ColorFilter.tint(color)
-    )
 }
